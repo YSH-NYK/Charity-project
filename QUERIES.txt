@@ -1,0 +1,59 @@
+===========|  CREATE TABLES  |=======================================
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    email VARCHAR(255) UNIQUE,
+    password VARCHAR(255),
+    is_active TINYINT(1),
+    is_deleted TINYINT(1),
+    user_type CHAR(1)
+);
+
+CREATE TABLE products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    is_active TINYINT(1),
+    is_deleted TINYINT(1),
+    name VARCHAR(255),
+    price DECIMAL(10, 2),
+    link VARCHAR(255),
+    charity_id INT,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    img_name VARCHAR(255),
+    FOREIGN KEY (charity_id) REFERENCES charities(id)
+);
+
+CREATE TABLE charities (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    img_name VARCHAR(255),
+    highlighted TINYINT(1),
+    listed TINYINT(1),
+    is_active TINYINT(1),
+    is_deleted TINYINT(1),
+    name VARCHAR(255),
+    email VARCHAR(255),
+    address TEXT,
+    about TEXT,
+    contact1 BIGINT,
+    contact2 BIGINT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+========================================================================================
+
+=========================| INSERT DUMMY DATA  |===================================================
+
+INSERT INTO users (name, email, password, is_active, is_deleted, user_type) VALUES 
+('Admin', 'admin@gmail.com', 'U2FsdGVkX1/k7FaAVciwQKHhA9IPa+KRPpjBY4QcGeU=', 1, 0, 'A');
+
+INSERT INTO charities (img_name, highlighted, listed, is_active, is_deleted, name, email, address, about, contact1, contact2, created_at, updated_at) VALUES 
+('1719059069949_mm4.jpg', 1, 0, 1, 0, 'charity Name22', 'charity@gmail.com', 'address Data', 'about', 5556663332, 8884445556, FROM_UNIXTIME(1718626686523 / 1000), FROM_UNIXTIME(1719059069992 / 1000)),
+('1719060592022_mm2.jpg', 0, 0, 1, 0, 'charity Nameee33', 'charity@gmail.com', 'address Data', 'about', 5556663332, 8884445556, FROM_UNIXTIME(1718626686572 / 1000), FROM_UNIXTIME(1719060592065 / 1000)),
+('1719060601525_mm5.jpg', 0, 0, 1, 0, 'charity Name556', 'hello@gmail.com', 'address3', 'asdfghj', 7775553336, 1115559996, FROM_UNIXTIME(1719046235725 / 1000), FROM_UNIXTIME(1719060601561 / 1000));
+
+INSERT INTO products (is_active, is_deleted, name, price, link, charity_id, description, created_at, updated_at, img_name) VALUES 
+(1, 0, 'item 123', 5255, 'https://testlink2.com/', (SELECT id FROM charities WHERE id = '6670297eeffe689639b9e701'), 'description22', FROM_UNIXTIME(1718643899959 / 1000), FROM_UNIXTIME(1719060223223 / 1000), '1719060223167_mm1.jpg'),
+(1, 0, 'item 2233', 500, 'https://testlink23.com/', (SELECT id FROM charities WHERE id = '6670297eeffe689639b9e701'), 'asdfghjk', FROM_UNIXTIME(1719049978908 / 1000), FROM_UNIXTIME(1719060215673 / 1000), '1719060215590_mm5.jpg'),
+(1, 0, 'item 100', 407, 'https://testlink200.com/', (SELECT id FROM charities WHERE id = '6670297eeffe689639b9e701'), 'description22', FROM_UNIXTIME(1719050236050 / 1000), FROM_UNIXTIME(1719060571424 / 1000), '1719060565644_mm4.jpg');
